@@ -13,22 +13,38 @@
 #nav1 {
   border-radius: 0%;
   border-color: transparent;
-  background-color: #E5E6ED;
-  opacity: 0.5;
+  background-color: rgba(229, 230, 237, 0.5);
 }
 a {
   color: #060813 !important;
   font-weight: bold;
   font-size: 120%;
 }
-#alignTextNav {
-  text-align:center;
+
+/* screen lower to 768px*/
+@media screen and (min-width: 768px){
+  .navbar-nav.navbar-center {
+    position: absolute;
+    left: 50%;
+    transform: translatex(-50%);
+  }
+  #btnSign1 {
+    transform: translate(-65%,25%);
+  }
+  #btnSign2 {
+    transform: translate(-50%,25%);
+  }
 }
-#blockNavbar {
-    display:inline-block;
-    float:none;
-}
-#myNav {
-  background-color: transparent;
-  border-color: transparent;
+
+/* screen higher to 768px*/
+@media screen and (max-width: 768px){
+  #btnSign1 {
+    transform: translate(20%, 10%);
+  }
+  #btnSign2 {
+    transform: translate(10%, 50%);
+  }
+  #alignElementNav {
+    margin-left: 50%;
+  }
 }
