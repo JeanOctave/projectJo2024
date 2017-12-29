@@ -58,6 +58,7 @@ create table events(
     startEvent varchar(50),
     endEvent varchar(50),
     typeEvent varchar(50),
+    nbInscription int(6),
     idMedia int(3),
     idPlace int(3),
     primary key(idEvent),
