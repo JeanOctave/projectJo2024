@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf8" />
+    <title> JO2024 </title>
+    <!-- css -->
+    <link rel="stylesheet" href="front/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="front/css/style.css" />
+  </head>
+  {% block body %}{% endblock %}
+    <!--- Nav -->
+    <nav class="navbar navbar-default" role="navigation" id="nav1">
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>    
+      </div>
+      <div class="navbar-collapse collapse">
+        <div id="alignElementNav">
+          <ul class="nav navbar-nav navbar-center">
+            <li><a href="#">Home</a></li>
+            <li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown"> Events <b class="caret"></b></a>
+              <ul class="dropdown-menu dropdown-menu-centered" id="nav1">
+                <li><a href="#">Activities</a></li>
+                <li><a href="#">Games</a></li>
+              </ul>
+            </li>
+          <li><a href="#">Contact</a></li>
+        </ul>
+        <ul class="nav navbar-nav navbar-right">
+          <li><button class="btn btn-primary" type="submit" value="" id="btnSign1">Sing-In</button></li>
+          <li><button class="btn btn-primary" type="submit" value="" id="btnSign2">Sing-Up</button></li>
+        </ul>
+      </div>
+      </div>
+    </nav>     
+    <!-- Content -->
+    {% block content %}{% endblock %}
+    <!-- js -->
+    <script src="front/js/jquery.js"></script>
+    <script src="front/js/bootstrap.min.js"></script>
+  </body>
+</html>
+
+
+
