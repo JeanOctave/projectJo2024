@@ -4,8 +4,9 @@
     <meta charset="utf8" />
     <title> JO2024 </title>
     <!-- css -->
-    <link rel="stylesheet" href="front/css/bootstrap.min.css" />
+   <link rel="stylesheet" href="front/css/bootstrap.min.css">
     <link rel="stylesheet" href="front/css/style.css" />
+    
   </head>
   {% block body %}{% endblock %}
     <!--- Nav -->
@@ -31,17 +32,27 @@
           <li><a href="#">Contact</a></li>
         </ul>
         <ul class="nav navbar-nav navbar-right">
-          <li><input class="btn btn-primary" type="submit" value="Sign in" id="btnSign1"/></li>
-          <li><input class="btn btn-primary" type="submit" value="Sign Out" id="btnSign2"/></li>
+          <li><button class="btn btn-primary" type="submit" id="btnSign1"/>Sign In</button></li>
+          <li><button class="btn btn-primary" type="submit"  id="btnSign2"/>Sign Up</button></li>
         </ul>
       </div>
       </div>
-    </nav>     
+    </nav>
     <!-- Content -->
     {% block content %}{% endblock %}
+    <!-- Footer -->
+    
     <!-- js -->
-    <script src="front/js/jquery.js"></script>
-    <script src="front/js/bootstrap.min.js"></script>
+    <script
+    src="https://code.jquery.com/jquery-3.2.1.min.js"
+    integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+    crossorigin="anonymous"></script>>
+    <script
+    src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"
+    integrity="sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU="
+    crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="front/js/myJs.js"></script>
   </body>
 </html>
 
