@@ -1,8 +1,9 @@
 <?php
 session_start();
 require "MVC/controller/controller.php";
-require "loadTwig.php";
 
+
+$controller = new controller('localhost', 'jo2024', 'root', '');
 //retrivial data a page
 $page = isset($_GET['page']) ? $_GET['page'] : 0;
 
@@ -17,7 +18,8 @@ switch($page) {
     case 4:
     break;
     default:
-        $templateIndex = $twig->loadTemplate('user.html.twig');
-        echo $templateIndex->render(array());
+       
+       echo $controller->checkViewDefault();
+
 }
 

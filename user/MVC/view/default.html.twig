@@ -5,7 +5,7 @@
     <title> JO2024 </title>
     <!-- css -->
    <link rel="stylesheet" href="front/css/bootstrap.min.css">
-    <link rel="stylesheet" href="front/css/style.css" />
+   <link rel="stylesheet" href="front/css/style.css" />
     
   </head>
   {% block body %}{% endblock %}
@@ -32,27 +32,49 @@
           <li><a href="#">Contact</a></li>
         </ul>
         <ul class="nav navbar-nav navbar-right">
-          <li><button class="btn btn-primary" type="submit" id="btnSign1"/>Sign In</button></li>
-          <li><button class="btn btn-primary" type="submit"  id="btnSign2"/>Sign Up</button></li>
+          <li>
+            <button class="btn btn-primary" type="button" id="btnSign1" data-toggle="modal" data-target="#login-modal">
+              Sign In
+            </button>
+          </li>
+          <li><button class="btn btn-primary" type="submit"  id="btnSign2">Sign Up</button></li>
         </ul>
       </div>
       </div>
     </nav>
+
+    <!-- Modal Sign in -->
+    <div class="modal fade" id="login-modal" tabindex="-1" role="dialog" aria-hidden="true">
+    	  <div class="modal-dialog">
+				<div class="loginmodal-container">
+					<h1>Login to Your Account</h1><br>
+				  <form method="post" action="" id="form">
+					  <input type="text" name="email" placeholder="Email">
+            <input type="password" name="pswd" placeholder="Password">
+					  <button type="submit" name="login" class="login loginmodal-submit" id="submit">
+              Login
+            </button>
+          </form>
+          {{ myMessage }}
+				</div>
+			</div>
+		</div>
     <!-- Content -->
     {% block content %}{% endblock %}
     <!-- Footer -->
     
     <!-- js -->
-    <script
-    src="https://code.jquery.com/jquery-3.2.1.min.js"
-    integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
-    crossorigin="anonymous"></script>>
-    <script
-    src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"
-    integrity="sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU="
-    crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <script src="front/js/myJs.js"></script>
+    {% if myMessage is not empty %}
+      <script> 
+        $(function() {                       // On DOM ready
+          $('#login-modal').modal('show');     // Show the modal
+        });
+      </script>
+    {% endif %}
   </body>
 </html>
 
