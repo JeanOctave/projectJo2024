@@ -8,57 +8,208 @@
    <link rel="stylesheet" href="front/css/style.css" />
     
   </head>
-  {% block body %}{% endblock %}
-    <!--- Nav -->
-    <nav class="navbar navbar-default" role="navigation" id="nav1">
-      <div class="navbar-header">
-        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-        </button>    
-      </div>
-      <div class="navbar-collapse collapse">
-        <div id="alignElementNav">
-          <ul class="nav navbar-nav navbar-center">
-            <li><a href="#">Home</a></li>
-            <li class="dropdown">
-              <a href="#" class="dropdown-toggle" data-toggle="dropdown"> Events <b class="caret"></b></a>
-              <ul class="dropdown-menu dropdown-menu-centered" id="nav1">
-                <li><a href="#">Activities</a></li>
-                <li><a href="#">Games</a></li>
-              </ul>
-            </li>
-          <li><a href="#">Contact</a></li>
-        </ul>
-        <ul class="nav navbar-nav navbar-right">
-          <li>
-            <button class="btn btn-primary" type="button" id="btnSign1" data-toggle="modal" data-target="#login-modal">
-              Sign In
-            </button>
-          </li>
-          <li><button class="btn btn-primary" type="submit"  id="btnSign2">Sign Up</button></li>
-        </ul>
-      </div>
-      </div>
-    </nav>
+  <body>
+    
+    <!-- video -->
+    {% block video %}{% endblock %}
 
-    <!-- Modal Sign in -->
-    <div class="modal fade" id="login-modal" tabindex="-1" role="dialog" aria-hidden="true">
-    	  <div class="modal-dialog">
-				<div class="loginmodal-container">
-					<h1>Login to Your Account</h1><br>
-				  <form method="post" action="" id="form">
-					  <input type="text" name="email" placeholder="Email">
-            <input type="password" name="pswd" placeholder="Password">
-					  <button type="submit" name="login" class="login loginmodal-submit" id="submit">
-              Login
-            </button>
-          </form>
-          {{ myMessage }}
-				</div>
-			</div>
-		</div>
+    <!--- Nav -->
+    
+      <nav class="navbar navbar-default" role="navigation" id="nav1">
+          <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>    
+          </div>
+          <div class="navbar-collapse collapse">
+            <div id="alignElementNav">
+              <ul class="nav navbar-nav navbar-center">
+                <li><a href={{ home }}>Home</a></li>
+                <li class="dropdown">
+                  <a href="#" class="dropdown-toggle" data-toggle="dropdown"> Events <b class="caret"></b></a>
+                  <ul class="dropdown-menu dropdown-menu-centered" id="nav1">
+                    <li><a href="#">Activities</a></li>
+                    <li><a href="#">Games</a></li>
+                  </ul>
+                </li>
+              <li><a href={{ contact }}>Contact</a></li>
+            </ul>
+            {% if session.mail is defined and session.pswd is defined %}
+            <ul class="nav navbar-nav navbar-right">
+              <li>
+                  <div class="dropdown">
+                    <form method="post" action="">
+                      <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" id="btnConnected">
+                        Menu
+                        <span class="caret"></span>
+                      </button>
+                      <ul class="dropdown-menu dropdown-menu-centered" id="dropDownMenu">
+                        <center>
+                          <li class="dropdown-header"> Bonjour {{ session.lastName }}</li>
+                          <hr />
+                          <li><button class="btn btn-primary" type="submit" name="disconnect"> Sign out </button></li>
+                        </center>
+                      </ul>
+                    </form>
+                    </div>
+                  </div>
+              </li>
+            </ul>
+            {% else %}
+            <ul class="nav navbar-nav navbar-right">
+              <li>
+                <button class="btn btn-primary" type="button" id="btnSign1" data-toggle="modal" data-target="#modalSignIn">
+                  Sign In
+                </button>
+              </li>
+              <li><button class="btn btn-primary" type="submit"  id="btnSign2" data-toggle="modal" data-target="#modalSignUp">Sign Up</button></li>
+            </ul>
+            {% endif %}
+          </div>
+          </div>
+      </nav>
+    <!--///////////////////////-->
+
+    <!-- Modal Sign In -->
+    <div class="modal fade" id="modalSignIn" role="dialog">
+      <div class="modal-dialog modal-register">
+        <!-- Modal content-->
+          <div class="modal-body">
+            <div class="main-login main-center form-w3-agile">
+            <div>
+              <h1><center>Sign In</center></h1>
+            </div>
+            <form class="form-horizontal form-register" method="post" action="">
+              <div class="form-group">
+                <div class="cols-sm-10">
+                  <div class="input-group">
+                    <span class="input-group-addon"><i class="fa fa-user fa" aria-hidden="true"></i></span>
+                    <input type="text" class="form-control" name="email" id="email" placeholder="Your Email" required="required" />
+                  </div>
+                </div>
+              </div>
+  
+              <div class="form-group">
+                <div class="cols-sm-10">
+                  <div class="input-group">
+                    <span class="input-group-addon"><i class="fa fa-user fa" aria-hidden="true"></i></span>
+                    <input type="password" class="form-control" name="pswd" id="pswd" placeholder="Your password"required="required" />
+                  </div>
+                </div>
+              </div>
+
+              <div class="btn-submit">
+                <div class="form-group ">
+                  <button type="submit" id="submit" name="submit" class="btn btn-primary btn-lg btn-block">Sign Up</button>
+                </div>
+                
+                <div class="form-group ">
+                  <button type="reset" class="btn btn-primary btn-lg btn-block">Cancel</button>
+                </div>
+              </div>
+              {# Message Errors #}
+            {% if inputErrors|length > 0 %}
+            <div class="alert alert-danger alert-dismissable">
+              <a href="#" class="close" data-dismiss="alert" aria-label="close">×</a>
+              <center><strong> Errors Sign In</strong></center><br />
+              {% for key, errorsField in inputErrors %}
+                {% for error in  errorsField %}
+                  <li>  {{ error }} </li>
+                {% endfor %}
+              {% endfor %}
+            </div>
+          {% endif %}
+
+            </form>
+          </div>
+          </div>
+      </div>
+    </div>
+
+        <!-- Modal Sign Up -->
+        <div class="modal fade" id="modalSignUp" role="dialog">
+          <div class="modal-dialog modal-register">
+            <!-- Modal content-->
+              <div class="modal-body">
+                <div class="main-login main-center form-w3-agile">
+                <div>
+                  <h1><center>Sign Up</center></h1>
+                </div>
+                <form class="form-horizontal form-register" method="post" action="#">
+                  <div class="form-group">
+                    <div class="cols-sm-10">
+                      <div class="input-group">
+                        <span class="input-group-addon"><i class="fa fa-user fa" aria-hidden="true"></i></span>
+                        <input type="text" class="form-control" name="name" id="name" placeholder="First name ..."/>
+                      </div>
+                    </div>
+                  </div>
+      
+                  <div class="form-group">
+                    <div class="cols-sm-10">
+                      <div class="input-group">
+                        <span class="input-group-addon"><i class="fa fa-user fa" aria-hidden="true"></i></span>
+                        <input type="text" class="form-control" name="last" id="mail" placeholder="Last name ..."/>
+                      </div>
+                    </div>
+                  </div>
+      
+                  <div class="form-group">
+                    <div class="cols-sm-10">
+                      <div class="input-group">
+                        <span class="input-group-addon"><i class="fa fa-envelope fa" aria-hidden="true"></i></span>
+                        <input type="text" class="form-control" name="username" id="username" placeholder="Email ..."/>
+                      </div>
+                    </div>
+                  </div>
+  
+                  <div class="side-by-side clearfix">
+                    <div>
+                      <select data-placeholder="Choose a Country..." class="chosen-select" tabindex="2">
+                        <option value=""></option>
+                        <option value="United States">United States</option>
+                        <option value="United Kingdom">United Kingdom</option>
+                        <option value="Afghanistan">Afghanistan</option>
+                        <option value="Aland Islands">Aland Islands</option>
+                      </select>
+                    </div>
+                  </div>
+                    
+                  <div class="form-group">
+                    <div class="cols-sm-10">
+                      <div class="input-group">
+                        <span class="input-group-addon"><i class="fa fa-lock fa-lg" aria-hidden="true"></i></span>
+                        <input type="password" class="form-control" name="password" id="password" placeholder="Password ..."/>
+                      </div>
+                    </div>
+                  </div>
+      
+                  <div class="form-group">
+                    <div class="cols-sm-10">
+                      <div class="input-group">
+                        <span class="input-group-addon"><i class="fa fa-lock fa-lg" aria-hidden="true"></i></span>
+                        <input type="password" class="form-control" name="repeatPass" id="repeatPass" placeholder="Repeat password ..."/>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="btn-submit">
+                    <div class="form-group ">
+                      <button type="submit" class="btn btn-primary btn-lg btn-block">Sign Up</button>
+                    </div>
+                    
+                    <div class="form-group ">
+                      <button type="reset" class="btn btn-primary btn-lg btn-block">Cancel</button>
+                    </div>
+                  </div>
+                </form>
+              </div>
+              </div>
+          </div>
+        </div>
+      <!--///////////////////////-->
+
     <!-- Content -->
     {% block content %}{% endblock %}
     <!-- Footer -->
@@ -69,11 +220,11 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <script src="front/js/myJs.js"></script>
     {% if myMessage is not empty %}
-      <script> 
-        $(function() {                       // On DOM ready
-          $('#login-modal').modal('show');     // Show the modal
-        });
-      </script>
+    <script>
+      $(function() {                       // On DOM ready
+        $('#modalSignIn').modal('show');     // Show the modal
+      });
+    </script>
     {% endif %}
   </body>
 </html>
