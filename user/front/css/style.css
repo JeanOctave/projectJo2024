@@ -10,9 +10,15 @@
 }
 
 #imgHome {
-  width: 35%;
+  width: 20%;
+  margin-top: 50px;
 }
+
 /* nav */
+.navbar {
+  margin-bottom: 0px;
+}
+
 #nav1 {
   border-radius: 0%;
   border-color: transparent;
@@ -63,6 +69,7 @@ a {
     transform: translate(-50%,10%);
   }
 }
+
 /*  video */
 #video {
 	position: relative;
@@ -79,8 +86,6 @@ a {
 }
 
 /* modal */
-
-/* Sign In */
 .visible {
   display: block
 }
@@ -122,36 +127,6 @@ label{
  	max-width: 330px;
   padding: 25px 60px 20px 50px;
   border-radius: 10px;
-}
-
-.social-icon {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-}
-
-.social-icon li{
-  display: inline-block;
-  text-align: center;
-}
-
-.social-icon a {
-  display: block;
-  width: 44px;
-  height: 44px;
-  line-height: 44px;
-  border-radius: 50%;
-  margin-right: 5px;
-}
-
-.social-icon a {
-  background: rgba(111, 121, 120, 0.25); /* social icon background color */
-  color: #000; /* social icon color */
-}
-
-.social-icon a:hover {
-  background: rgba(70, 70, 70, 0.25); /* social icon hover background color */
-  color: #fff; /* social icon hover color */
 }
 
 * {padding:0;margin:0;box-sizing:border-box;}
@@ -211,4 +186,63 @@ label{
 
 .modal-register .modal-body{
   padding: 30px
+}
+
+/* footer */
+.social-icon {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.social-icon li{
+  display: inline-block;
+  text-align: center;
+}
+
+.social-icon a {
+  display: block;
+  width: 44px;
+  height: 44px;
+  line-height: 44px;
+  border-radius: 50%;
+  margin-right: 5px;
+}
+
+.social-icon a {
+  background: rgba(255, 255, 255, 0.85); /* social icon background color */
+  color: #000; /* social icon color */
+}
+
+.social-icon a:hover {
+  background: rgba(40,96,144, 0.25); /* social icon hover background color */
+  color: #fff; /* social icon hover color */
+}
+
+.footer {
+  background-color:#9ECCE3;
+}
+
+.footer{
+  text-align: center;
+  padding-bottom: 10px;
+  padding-top: 10px;
+}
+
+.copyright{
+    background-color:#F2F2F6;
+}
+
+.copyright p{
+	font-size:12px;
+  padding: 10px 0 0px 0;
+}
+
+.jumbotron{
+  margin-bottom: 80px;
+  background-color: #9ECCE3;
+}
+
+.well-sm {
+  margin-bottom: 80px;
 }

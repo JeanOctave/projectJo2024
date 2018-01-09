@@ -40,5 +40,5 @@ begin
 END //
 Delimiter ;
 
-call checkHeritageForU('germe', 'germa', 'gg@gmail.com', 'rkkkrkrk456', '0', 'gg', 'soccer');
+call checkHeritageForU('germe', 'germa', 'gg@gmail.com', 'rkkkrkrk456', '0', 'gg', 'soccer, basketball, rudby');
 call checkHeritageForC('germe', 'germa', 'gg@gmail.com', 'rkkkrkrk456', '0', 'gg', 'mondial');

@@ -4,7 +4,7 @@ require dirname(__DIR__) . "/requireLink.php";
 
 class controller {
   private $displayMethod;
-  private $pathUser = "http://localhost/Developpement/dev/jo2024/user/";
+  private $pathUser = "http://localhost/Developpement/prod/jo2024/user/";
 
   public function __construct($server, $database, $user, $password) {
     $this->displayMethod = new modelSpecial($server, $database, $user, $password);
@@ -29,15 +29,24 @@ class controller {
     return $twig;
   }
   //stay Session enable
-  public function staySessionEnable($email, $password) {
+  public function staySessionEnable($email, $passwordCrypted) {
     /* call request selectWhere */
     $fields = array("lastName", "mail", "salt", "pswd");
     $where = array(
       "mail" => $email,
-      "pswd" => $password
+      "pswd" => $passwordCrypted
     );
     $unUtilisateur = $this->displayMethod-> selectWhere($fields, $where);
     return $unUtilisateur;
+  }
+  //get the salt
+  public function getTheSalt($mail) {
+    $fields = array("salt");
+    $where = array(
+      "mail" => $mail
+    );
+    $theSalt = $this->displayMethod-> selectWhere($fields, $where);
+    return $theSalt;
   }
 
   /* ---- specific method ----- */
@@ -62,85 +71,373 @@ class controller {
   /* check and request for Sign in and Sign Up */
     public function checkViewDefault() {
       $message = "";
+      $messageSignUp = "";
       $tabError = array();
-      $this->setTable('user');
-
+      //setTable sport for the list
+      $this->setTable('sport');
+      //select all sports for the list
+      $sports = $this->displayMethod-> selectAll();
+      //login user
       if(isset($_POST['submit'])) {
+        $this->setTable('user');
         sleep(1);
         $email = htmlspecialchars($_POST['email']);
         $password = htmlspecialchars($_POST['pswd']);
-
-        $unUtilisateur = $this->staySessionEnable($email, $password);
-
+        //get salt user
+        $theSalt = $this->getTheSalt($email);
+        //crypted password
+        $passwordCrypted = crypt($password, $theSalt['salt']);
+        
+        $unUtilisateur = $this->staySessionEnable($email, $passwordCrypted);
         /* check fields */
-        if($unUtilisateur['mail'] !== $email || $unUtilisateur['pswd'] !== $password) {
+        if($unUtilisateur['mail'] !== $email || !password_verify($password, $unUtilisateur['pswd'])) {
           $message = "error Sign in";
           $tabError[][] = "mail or password invalid";
         }
-
         /* if no errors */
         if(count($tabError) == 0) {
           //call method for retrevial session
-          $this->getSessionCo($unUtilisateur['lastName'], $email, $password);
+          $this->getSessionCo($unUtilisateur['lastName'], $email, $passwordCrypted);
         }
 
+      }
+      //register user
+      if(isset($_POST['Su'])) {
+        $tabPref = array();
+        $thePreferences = "";
+        $preferencesUser = $_POST['prf'];
+        $repeatPass = $_POST['repeatPass'];
+        
+        //call method for choised several data in the select
+        $myPreference = $this->multipleSelect($tabPref, $thePreferences, $preferencesUser);
+
+        //crypt password
+        $salt = md5(uniqid());
+        $passwordCrypted = crypt($_POST['password'], $salt);
+
+        $tabInsert = array(
+          "firstName" => $_POST['fname'],
+          "lastName" => $_POST['lname'],
+          "mail" => $_POST['email'],
+          "salt" => $salt,
+          "active" => '1',
+          "pswd" => $passwordCrypted,
+          "preference" => $myPreference,
+        );
+        
+        //check Sign up
+        if(!password_verify($repeatPass, $passwordCrypted)) {
+          $tabError[][] = "the two passwords are not identical";
+        }
+        if(count($tabError) == 0) {
+          $messageSignUp = "Successful registration, you can connect";
+          $this->displayMethod-> insertUser($tabInsert);
+        }
+       
       }
 
       //disconnect session
       if(isset($_POST['disconnect'])) {
         $this->destroySession();
         header('location: user.php');
+
       }
 
       $templateIndex = $this->loadTwig()->loadTemplate('user.html.twig');
       return $templateIndex->render(array(
         "myMessage" => $message,
+        "sucessSignUp" => $messageSignUp,
         "inputErrors" => $tabError,
         "session" => $_SESSION,
         "home" => $this->returnHome(),
-        "contact" => $this->returnContact()
+        "contact" => $this->returnContact(),
+        "activities" => $this->returnActivities(),
+        "games" => $this->returnGames(),
+        "sports" => $sports
       ));
     }
 
     public function checkViewContact() {
-        $message = "";
-        $tabError = array();
+      $message = "";
+      $messageSignUp = "";
+      $tabError = array();
+      //setTable sport for the list
+      $this->setTable('sport');
+      //select all sports for the list
+      $sports = $this->displayMethod-> selectAll();
+      //login user
+      if(isset($_POST['submit'])) {
         $this->setTable('user');
-
-        if(isset($_POST['submit'])) {
-          sleep(1);
-          $email = htmlspecialchars($_POST['email']);
-          $password = htmlspecialchars($_POST['pswd']);
-
-          $unUtilisateur = $this->staySessionEnable($email, $password);
-          /* check fields */
-          if($unUtilisateur['mail'] !== $email || $unUtilisateur['pswd'] !== $password) {
-            $message = "error Sign in";
-            $tabError[][] = "mail or password invalid";
-          }
-          /* if no errors */
-          if(count($tabError) == 0) {
-            //call method for retrevial session
-            $this->getSessionCo($unUtilisateur['lastName'], $email, $password);
-          }
-  
+        sleep(1);
+        $email = htmlspecialchars($_POST['email']);
+        $password = htmlspecialchars($_POST['pswd']);
+        //get salt user
+        $theSalt = $this->getTheSalt($email);
+        //crypted password
+        $passwordCrypted = crypt($password, $theSalt['salt']);
+        
+        $unUtilisateur = $this->staySessionEnable($email, $passwordCrypted);
+        /* check fields */
+        if($unUtilisateur['mail'] !== $email || !password_verify($password, $unUtilisateur['pswd'])) {
+          $message = "error Sign in";
+          $tabError[][] = "mail or password invalid";
         }
-          //disconnect session
-          if(isset($_POST['disconnect'])) {
-            $this->destroySession();
-            header('location: user.php');
-          }
+        /* if no errors */
+        if(count($tabError) == 0) {
+          //call method for retrevial session
+          $this->getSessionCo($unUtilisateur['lastName'], $email, $passwordCrypted);
+        }
 
-        $templateContact = $this->loadTwig()->loadTemplate('contact.html.twig');
-        return $templateContact->render(array(
-          "session" => $_SESSION,
-          "home" => $this->returnHome(),
-          "contact" => $this->returnContact()
-        ));
+      }
+      //register user
+      if(isset($_POST['Su'])) {
+        $tabPref = array();
+        $thePreferences = "";
+        $preferencesUser = $_POST['prf'];
+        $repeatPass = $_POST['repeatPass'];
+        
+        //call method for choised several data in the select
+        $myPreference = $this->multipleSelect($tabPref, $thePreferences, $preferencesUser);
+
+        //crypt password
+        $salt = md5(uniqid());
+        $passwordCrypted = crypt($_POST['password'], $salt);
+
+        $tabInsert = array(
+          "firstName" => $_POST['fname'],
+          "lastName" => $_POST['lname'],
+          "mail" => $_POST['email'],
+          "salt" => $salt,
+          "active" => '1',
+          "pswd" => $passwordCrypted,
+          "preference" => $myPreference,
+        );
+        
+        //check Sign up
+        if(!password_verify($repeatPass, $passwordCrypted)) {
+          $tabError[][] = "the two passwords are not identical";
+        }
+        if(count($tabError) == 0) {
+          $messageSignUp = "Successful registration, you can connect";
+          $this->displayMethod-> insertUser($tabInsert);
+        }
+       
+      }
+
+      //disconnect session
+      if(isset($_POST['disconnect'])) {
+        $this->destroySession();
+        header('location: user.php');
+
+      }
+
+      $templateIndex = $this->loadTwig()->loadTemplate('contact.html.twig');
+      return $templateIndex->render(array(
+        "myMessage" => $message,
+        "sucessSignUp" => $messageSignUp,
+        "inputErrors" => $tabError,
+        "session" => $_SESSION,
+        "home" => $this->returnHome(),
+        "contact" => $this->returnContact(),
+        "activities" => $this->returnActivities(),
+        "games" => $this->returnGames(),
+        "sports" => $sports
+      ));
     }
-    
+
+    public function checkViewActivities() {
+      $message = "";
+      $messageSignUp = "";
+      $tabError = array();
+      //setTable sport for the list
+      $this->setTable('sport');
+      //select all sports for the list
+      $sports = $this->displayMethod-> selectAll();
+      //login user
+      if(isset($_POST['submit'])) {
+        $this->setTable('user');
+        sleep(1);
+        $email = htmlspecialchars($_POST['email']);
+        $password = htmlspecialchars($_POST['pswd']);
+        //get salt user
+        $theSalt = $this->getTheSalt($email);
+        //crypted password
+        $passwordCrypted = crypt($password, $theSalt['salt']);
+        
+        $unUtilisateur = $this->staySessionEnable($email, $passwordCrypted);
+        /* check fields */
+        if($unUtilisateur['mail'] !== $email || !password_verify($password, $unUtilisateur['pswd'])) {
+          $message = "error Sign in";
+          $tabError[][] = "mail or password invalid";
+        }
+        /* if no errors */
+        if(count($tabError) == 0) {
+          //call method for retrevial session
+          $this->getSessionCo($unUtilisateur['lastName'], $email, $passwordCrypted);
+        }
+
+      }
+      //register user
+      if(isset($_POST['Su'])) {
+        $tabPref = array();
+        $thePreferences = "";
+        $preferencesUser = $_POST['prf'];
+        $repeatPass = $_POST['repeatPass'];
+        
+        //call method for choised several data in the select
+        $myPreference = $this->multipleSelect($tabPref, $thePreferences, $preferencesUser);
+
+        //crypt password
+        $salt = md5(uniqid());
+        $passwordCrypted = crypt($_POST['password'], $salt);
+
+        $tabInsert = array(
+          "firstName" => $_POST['fname'],
+          "lastName" => $_POST['lname'],
+          "mail" => $_POST['email'],
+          "salt" => $salt,
+          "active" => '1',
+          "pswd" => $passwordCrypted,
+          "preference" => $myPreference,
+        );
+        
+        //check Sign up
+        if(!password_verify($repeatPass, $passwordCrypted)) {
+          $tabError[][] = "the two passwords are not identical";
+        }
+        if(count($tabError) == 0) {
+          $messageSignUp = "Successful registration, you can connect";
+          $this->displayMethod-> insertUser($tabInsert);
+        }
+       
+      }
+
+      //disconnect session
+      if(isset($_POST['disconnect'])) {
+        $this->destroySession();
+        header('location: user.php');
+
+      }
+
+      $templateIndex = $this->loadTwig()->loadTemplate('activities.html.twig');
+      return $templateIndex->render(array(
+        "myMessage" => $message,
+        "sucessSignUp" => $messageSignUp,
+        "inputErrors" => $tabError,
+        "session" => $_SESSION,
+        "home" => $this->returnHome(),
+        "contact" => $this->returnContact(),
+        "activities" => $this->returnActivities(),
+        "games" => $this->returnGames(),
+        "sports" => $sports
+      ));
+    }
+
+    public function checkViewGames() {
+      $message = "";
+      $messageSignUp = "";
+      $tabError = array();
+      //setTable sport for the list
+      $this->setTable('sport');
+      //select all sports for the list
+      $sports = $this->displayMethod-> selectAll();
+      //login user
+      if(isset($_POST['submit'])) {
+        $this->setTable('user');
+        sleep(1);
+        $email = htmlspecialchars($_POST['email']);
+        $password = htmlspecialchars($_POST['pswd']);
+        //get salt user
+        $theSalt = $this->getTheSalt($email);
+        //crypted password
+        $passwordCrypted = crypt($password, $theSalt['salt']);
+        
+        $unUtilisateur = $this->staySessionEnable($email, $passwordCrypted);
+        /* check fields */
+        if($unUtilisateur['mail'] !== $email || !password_verify($password, $unUtilisateur['pswd'])) {
+          $message = "error Sign in";
+          $tabError[][] = "mail or password invalid";
+        }
+        /* if no errors */
+        if(count($tabError) == 0) {
+          //call method for retrevial session
+          $this->getSessionCo($unUtilisateur['lastName'], $email, $passwordCrypted);
+        }
+
+      }
+      //register user
+      if(isset($_POST['Su'])) {
+        $tabPref = array();
+        $thePreferences = "";
+        $preferencesUser = $_POST['prf'];
+        $repeatPass = $_POST['repeatPass'];
+        
+        //call method for choised several data in the select
+        $myPreference = $this->multipleSelect($tabPref, $thePreferences, $preferencesUser);
+
+        //crypt password
+        $salt = md5(uniqid());
+        $passwordCrypted = crypt($_POST['password'], $salt);
+
+        $tabInsert = array(
+          "firstName" => $_POST['fname'],
+          "lastName" => $_POST['lname'],
+          "mail" => $_POST['email'],
+          "salt" => $salt,
+          "active" => '1',
+          "pswd" => $passwordCrypted,
+          "preference" => $myPreference,
+        );
+        
+        //check Sign up
+        if(!password_verify($repeatPass, $passwordCrypted)) {
+          $tabError[][] = "the two passwords are not identical";
+        }
+        if(count($tabError) == 0) {
+          $messageSignUp = "Successful registration, you can connect";
+          $this->displayMethod-> insertUser($tabInsert);
+        }
+       
+      }
+
+      //disconnect session
+      if(isset($_POST['disconnect'])) {
+        $this->destroySession();
+        header('location: user.php');
+
+      }
+
+      $templateIndex = $this->loadTwig()->loadTemplate('games.html.twig');
+      return $templateIndex->render(array(
+        "myMessage" => $message,
+        "sucessSignUp" => $messageSignUp,
+        "inputErrors" => $tabError,
+        "session" => $_SESSION,
+        "home" => $this->returnHome(),
+        "contact" => $this->returnContact(),
+        "activities" => $this->returnActivities(),
+        "games" => $this->returnGames(),
+        "sports" => $sports
+      ));
+    }
     /* ------- */
-    
+    //method for multiple select in html
+    public function multipleSelect(Array $tab, String $values, $post) {
+       //browse the multiple POST
+       foreach($post as $value) {
+        //Post typed by user go in array
+        $tab[] = $value;
+        //if data in array to above to 1 add the , between the data in array
+        if(count($tab) > 1) {
+          $values = implode(',', $tab);
+        }
+        //else nothing
+        else {
+          $values = implode('', $tab);
+        }
+      }
+      return $values;
+    }
     /* ----- Link page -----*/
     // method return home
     public function returnHome() {
