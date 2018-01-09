@@ -1,0 +1,74 @@
+{% extends "default.html.twig" %}
+
+{% block content %}
+<div class="jumbotron jumbotron-sm">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12 col-lg-12 text-center">
+                <h1 class="h1">
+                    Contact us <small>Feel free to contact us</small></h1>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="well well-sm">
+                <form>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="email">
+                                Email Address</label>
+                                <input type="email" class="form-control" id="email" placeholder="Enter your Email" required="required"/>
+                        </div>
+                        <div class="form-group">
+                            <label for="subject">
+                                Subject</label>
+                            <select id="subject" name="subject" class="form-control" required="required">
+                                <option value="" selected="">Choose One:</option>
+                                <option value="">General Customer Service</option>
+                                <option value="">Suggestions</option>
+                                <option value="">Product Support</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="name">
+                                Message</label>
+                            <textarea name="message" id="message" class="form-control" rows="9" cols="25" required="required"></textarea>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <button type="submit" class="btn btn-primary pull-right" id="btnContactUs">
+                            Send Message</button>
+                    </div>
+                </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block footer %}
+<footer class="footer">
+    <div class="container">
+        <ul class="social-icon animate">
+            <li><a href="#" title="facebook" target="_blank"><i class="fa fa-facebook"></i></a></li> <!-- change the link to social page and edit title-->
+            <li><a href="#" title="twitter" target="_blank"><i class="fa fa-twitter"></i></a></li>
+            <li><a href="#" title="google plus" target="_blank"><i class="fa fa-google-plus"></i></a></li>
+        </ul>
+    </div>
+</footer>
+
+<div class="copyright">
+    <div class="container">
+        <div class="row text-center">
+            <p>Copyright © 2018 All rights reserved</p>
+        </div>
+    </div>
+</div>
+{% endblock %}
