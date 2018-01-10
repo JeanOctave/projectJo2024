@@ -30,7 +30,7 @@
         $select = $this-> pdo-> prepare($request);
         $select-> execute();
         $results = $select -> fetchAll();
-        return $result;
+        return $results;
         } else {
         return null;
       }

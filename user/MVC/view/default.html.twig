@@ -1,12 +1,16 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
     <meta charset="utf8" />
+    <meta http-equiv="content-language" content="es">
     <title> JO2024 </title>
     <!-- css -->
    <link rel="stylesheet" href="front/css/bootstrap.min.css">
    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
    <link rel="stylesheet" href="front/css/style.css" />
+   <link rel="stylesheet" href="front/css/bootstrap-select.css">
+   <link rel="icon" type="image/png" href="front/img/icon/favicon.png">
+   <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
     
   </head>
   <body>
@@ -30,8 +34,8 @@
                 <li class="dropdown">
                   <a href="#" class="dropdown-toggle" data-toggle="dropdown"> Events <b class="caret"></b></a>
                   <ul class="dropdown-menu dropdown-menu-centered" id="nav1">
-                    <li><a href="#">Activities</a></li>
-                    <li><a href="#">Games</a></li>
+                    <li><a href={{ activities }}>Activities</a></li>
+                    <li><a href={{ games }}>Games</a></li>
                   </ul>
                 </li>
               <li><a href={{ contact }}>Contact</a></li>
@@ -86,7 +90,7 @@
                 <div class="cols-sm-10">
                   <div class="input-group">
                     <span class="input-group-addon"><i class="fa fa-user fa" aria-hidden="true"></i></span>
-                    <input type="text" class="form-control" name="email" id="email" placeholder="Your Email" required="required" />
+                    <input type="text" class="form-control" name="email" id="email" placeholder="Your Email" required="required"/>
                   </div>
                 </div>
               </div>
@@ -128,86 +132,104 @@
       </div>
     </div>
 
-        <!-- Modal Sign Up -->
-        <div class="modal fade" id="modalSignUp" role="dialog">
-          <div class="modal-dialog modal-register">
-            <!-- Modal content-->
-              <div class="modal-body">
-                <div class="main-login main-center form-w3-agile">
-                <div>
-                  <h1><center>Sign Up</center></h1>
+    <!-- Modal Sign Up -->
+    <div class="modal fade" id="modalSignUp" role="dialog">
+        <div class="modal-dialog modal-register">
+          <!-- Modal content-->
+            <div class="modal-body">
+              <div class="main-login main-center form-w3-agile">
+              <div>
+                <h1><center>Sign Up</center></h1>
+              </div>
+              <form class="form-horizontal form-register" method="post" action="">
+                <div class="form-group">
+                  <div class="cols-sm-10">
+                    <div class="input-group">
+                      <span class="input-group-addon"><i class="fa fa-user fa" aria-hidden="true"></i></span>
+                      <input type="text" class="form-control" name="fname" id="fname" placeholder="First name ..." required />
+                    </div>
+                  </div>
                 </div>
-                <form class="form-horizontal form-register" method="post" action="#">
-                  <div class="form-group">
-                    <div class="cols-sm-10">
-                      <div class="input-group">
-                        <span class="input-group-addon"><i class="fa fa-user fa" aria-hidden="true"></i></span>
-                        <input type="text" class="form-control" name="name" id="name" placeholder="First name ..."/>
-                      </div>
+    
+                <div class="form-group">
+                  <div class="cols-sm-10">
+                    <div class="input-group">
+                      <span class="input-group-addon"><i class="fa fa-user fa" aria-hidden="true"></i></span>
+                      <input type="text" class="form-control" name="lname" id="lname" placeholder="Last name ..."/>
                     </div>
                   </div>
-      
-                  <div class="form-group">
-                    <div class="cols-sm-10">
-                      <div class="input-group">
-                        <span class="input-group-addon"><i class="fa fa-user fa" aria-hidden="true"></i></span>
-                        <input type="text" class="form-control" name="last" id="mail" placeholder="Last name ..."/>
-                      </div>
+                </div>
+    
+                <div class="form-group">
+                  <div class="cols-sm-10">
+                    <div class="input-group">
+                      <span class="input-group-addon"><i class="fa fa-envelope fa" aria-hidden="true"></i></span>
+                      <input type="email" class="form-control" name="email" id="mail" placeholder="Email ..." required/>
                     </div>
                   </div>
-      
-                  <div class="form-group">
-                    <div class="cols-sm-10">
-                      <div class="input-group">
-                        <span class="input-group-addon"><i class="fa fa-envelope fa" aria-hidden="true"></i></span>
-                        <input type="text" class="form-control" name="username" id="username" placeholder="Email ..."/>
-                      </div>
+                </div>
+
+                <div class="form-group">
+                  <div class="col-sm-10">
+                    <select name="prf[]" class="selectpicker" data-live-search="true" title="Please select a preference" multiple>
+                      <option value=""> Neither Preference </option>
+                      {% for aSport in sports %}
+                        <option value={{ aSport.label }}>{{ aSport.label }}</option>
+                      {% endfor %}
+                    </select>
+                  </div>
+                </div>
+                  
+                <div class="form-group">
+                  <div class="cols-sm-10">
+                    <div class="input-group">
+                      <span class="input-group-addon"><i class="fa fa-lock fa-lg" aria-hidden="true"></i></span>
+                      <input type="password" class="form-control" name="password" id="password" placeholder="Password ..." required/>
                     </div>
                   </div>
-  
-                  <div class="side-by-side clearfix">
-                    <div>
-                      <select data-placeholder="Choose a Country..." class="chosen-select" tabindex="2">
-                        <option value=""></option>
-                        <option value="United States">United States</option>
-                        <option value="United Kingdom">United Kingdom</option>
-                        <option value="Afghanistan">Afghanistan</option>
-                        <option value="Aland Islands">Aland Islands</option>
-                      </select>
+                </div>
+    
+                <div class="form-group">
+                  <div class="cols-sm-10">
+                    <div class="input-group">
+                      <span class="input-group-addon"><i class="fa fa-lock fa-lg" aria-hidden="true"></i></span>
+                      <input type="password" class="form-control" name="repeatPass" id="repeatPass" placeholder="Repeat password ..." required/>
                     </div>
                   </div>
-                    
-                  <div class="form-group">
-                    <div class="cols-sm-10">
-                      <div class="input-group">
-                        <span class="input-group-addon"><i class="fa fa-lock fa-lg" aria-hidden="true"></i></span>
-                        <input type="password" class="form-control" name="password" id="password" placeholder="Password ..."/>
-                      </div>
-                    </div>
+                </div>
+                <div class="btn-submit">
+                  <div class="form-group ">
+                    <button type="submit" class="btn btn-primary btn-lg btn-block" name="Su">Sign Up</button>
                   </div>
-      
-                  <div class="form-group">
-                    <div class="cols-sm-10">
-                      <div class="input-group">
-                        <span class="input-group-addon"><i class="fa fa-lock fa-lg" aria-hidden="true"></i></span>
-                        <input type="password" class="form-control" name="repeatPass" id="repeatPass" placeholder="Repeat password ..."/>
-                      </div>
-                    </div>
+                  
+                  <div class="form-group ">
+                    <button type="reset" class="btn btn-primary btn-lg btn-block">Cancel</button>
                   </div>
-                  <div class="btn-submit">
-                    <div class="form-group ">
-                      <button type="submit" class="btn btn-primary btn-lg btn-block">Sign Up</button>
-                    </div>
-                    
-                    <div class="form-group ">
-                      <button type="reset" class="btn btn-primary btn-lg btn-block">Cancel</button>
-                    </div>
+                </div>
+
+                 {# Message Errors #}
+                {% if inputErrors|length > 0 %}
+                  <div class="alert alert-danger alert-dismissable">
+                    <a href="#" class="close" data-dismiss="alert" aria-label="close">×</a>
+                    <center><strong> Errors Sign Up</strong></center><br />
+                    {% for key, errorsField in inputErrors %}
+                      {% for error in  errorsField %}
+                        <li>  {{ error }} </li>
+                      {% endfor %}
+                    {% endfor %}
                   </div>
-                </form>
-              </div>
-              </div>
-          </div>
+                {% endif %}
+                {% if sucessSignUp is not empty %}
+                  <div class="alert alert-success">
+                    <a href="#" class="close" data-dismiss="alert" aria-label="close">×</a>
+                    {{ sucessSignUp }}
+                  </div>
+                {% endif %}
+              </form>
+            </div>
+            </div>
         </div>
+      </div>
       <!--///////////////////////-->
 
     <!-- Content -->
@@ -218,11 +240,19 @@
     <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="front/js/bootstrap-select.min.js"></script>
     <script src="front/js/myJs.js"></script>
     {% if myMessage is not empty %}
     <script>
       $(function() {                       // On DOM ready
         $('#modalSignIn').modal('show');     // Show the modal
+      });
+    </script>
+    {% endif %}
+    {% if sucessSignUp is not empty %}
+    <script>
+      $(function() {                       // On DOM ready
+        $('#modalSignUp').modal('show');     // Show the modal
       });
     </script>
     {% endif %}

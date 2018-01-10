@@ -34,7 +34,7 @@ create table user(
     salt varchar(255),
     active enum("0", "1"),
     pswd varchar(50),
-    preference varchar(50),
+    preference varchar(255),
     primary key(idPeople)
 );
 

@@ -11,8 +11,10 @@ switch($page) {
       echo $controller->checkViewDefault();
     break;
     case 2:
+      echo $controller->checkViewActivities();
     break;
     case 3:
+      echo $controller->checkViewGames();
     break;
     case 4:
       echo $controller->checkViewContact();
