@@ -370,18 +370,47 @@ class controller {
 
       }
 
-      $templateIndex = $this->loadTwig()->loadTemplate('activities.html.twig');
-      return $templateIndex->render(array(
-        "myMessage" => $message,
-        "sucessSignUp" => $messageSignUp,
-        "inputErrors" => $tabError,
-        "session" => $_SESSION,
-        "home" => $this->returnHome(),
-        "contact" => $this->returnContact(),
-        "activities" => $this->returnActivities(),
-        "games" => $this->returnGames(),
-        "sports" => $sports
-      ));
+      $this->setTable("selectAllActivities");
+      if(isset($_GET['labelEvents'])) {
+        $fields = array("labelEvents", "descriptions", "dateEvent", "labelMedia", "link", "labelPlace");
+        $where = array(
+          "labelEvents" => $_GET['labelEvents']
+        );
+
+        $selectAActivities = $this->displayMethod-> selectWhere($fields, $where);
+
+        $templateIndex = $this->loadTwig()->loadTemplate('aActivities.html.twig');
+        return $templateIndex->render(array(
+          "myMessage" => $message,
+          "sucessSignUp" => $messageSignUp,
+          "inputErrors" => $tabError,
+          "session" => $_SESSION,
+          "home" => $this->returnHome(),
+          "contact" => $this->returnContact(),
+          "activities" => $this->returnActivities(),
+          "games" => $this->returnGames(),
+          "sports" => $sports,
+          "aActivities" => $selectAActivities
+        ));
+      }
+      else {
+         
+          $allActivities = $this->displayMethod->selectAll();
+    
+          $templateIndex = $this->loadTwig()->loadTemplate('activities.html.twig');
+          return $templateIndex->render(array(
+            "myMessage" => $message,
+            "sucessSignUp" => $messageSignUp,
+            "inputErrors" => $tabError,
+            "session" => $_SESSION,
+            "home" => $this->returnHome(),
+            "contact" => $this->returnContact(),
+            "activities" => $this->returnActivities(),
+            "games" => $this->returnGames(),
+            "sports" => $sports,
+            "allActivities" => $allActivities
+          ));
+        }
     }
 
     public function checkViewGames() {

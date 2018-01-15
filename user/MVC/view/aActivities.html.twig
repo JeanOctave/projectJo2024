@@ -5,49 +5,16 @@
     <div class="container">
         <div class="row">
             <div class="col-sm-12 col-lg-12 text-center">
-                <h1>View our Activities</h1>
+                <h1>View our games</h1>
             </div>
         </div>
     </div>
 </div>
 
 <div class="container">
-    <div class="row">
-        <div class="col-lg-4"></div>
-        <div class="col-lg-4">
-            <div class="input-group">
-                <input type="text" class="name-country" placeholder="Choose by name..."/>
-                <span class="input-group-btn">
-                    <button class="btn btn-default" type="button">Go!</button>
-                </span>
-            </div>
-        </div>
-        <div class="col-lg-4"></div>
+    <div class="row"> 
+        {{ aActivities.labelEvents }}
     </div>
-</div>
-
-</br>
-</br>
-</br>
-
-<div class="container" id="page-games">
-    {% for aActivities in allActivities %}
-    <div class="games-block">
-        <div class="row"> 
-                <div class="col-md-4 img-games">
-                    <img src="{{ aActivities.link }}" alt="alterophilie" class="img-responsive" width="75%">
-                </div>
-                <div class="col-md-8">
-                    <h2>{{ aActivities.labelEvents }}</h2>
-                    <p class="desc-games">{{ aActivities.descriptions }}</p>
-                    <a href="{{ activities }}&&labelEvents={{ aActivities.labelEvents }}">View more</a>
-                </div>
-                <div class="col-md-12">
-                    <hr>
-                </div>
-        </div>
-    </div>
-    {% endfor %}
 </div>
 {% endblock %}
 
