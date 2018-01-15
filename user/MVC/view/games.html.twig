@@ -31,14 +31,15 @@
 </br>
 
 <div class="container" id="page-games">
+    {% for aGames in allGames %}
     <div class="games-block">
         <div class="row"> 
                 <div class="col-md-4 img-games">
-                    <img src="front/img/alterophilie.jpg" alt="alterophilie" class="img-responsive" width="75%">
+                    <img src="{{ aGames.link }}" alt="alterophilie" class="img-responsive" width="75%">
                 </div>
                 <div class="col-md-8">
-                    <h2>NAME</h2>
-                    <p class="desc-games">Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vestibulum tortor quam, feugiat vitae, ultricies eget, tempor sit amet, ante. Donec eu libero sit amet quam egestas semper. Aenean ultricies mi vitae est. Mauris placerat eleifend leo.</p>
+                    {{ aGames.labelEvents }}
+                    <p class="desc-games">{{ aGames.descriptions }}</p>
                     <a href="">View more</a>
                 </div>
                 <div class="col-md-12">
@@ -46,47 +47,27 @@
                 </div>
         </div>
     </div>
-    <div class="games-block">
-        <div class="row"> 
-                <div class="col-md-4 img-games">
-                    <img src="front/img/alterophilie.jpg" alt="alterophilie" class="img-responsive" width="75%">
-                </div>
-                <div class="col-md-8">
-                    <h2>NAME</h2>
-                    <p class="desc-games">Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vestibulum tortor quam, feugiat vitae, ultricies eget, tempor sit amet, ante. Donec eu libero sit amet quam egestas semper. Aenean ultricies mi vitae est. Mauris placerat eleifend leo.</p>
-                    <a href="">View more</a>
-                </div>
-                <div class="col-md-12">
-                    <hr>
-                </div>
+    {% endfor %}
+</div>
+{% endblock %}
+
+{% block footer %}
+<footer class="footer">
+    <div class="container">
+        <ul class="social-icon animate">
+            <li><a href="#" title="facebook" target="_blank"><i class="fa fa-facebook"></i></a></li> <!-- change the link to social page and edit title-->
+            <li><a href="#" title="twitter" target="_blank"><i class="fa fa-twitter"></i></a></li>
+            <li><a href="#" title="google plus" target="_blank"><i class="fa fa-google-plus"></i></a></li>
+        </ul>
+    </div>
+</footer>
+
+<div class="copyright">
+    <div class="container">
+        <div class="row text-center">
+            <p>Copyright © 2018 All rights reserved</p>
         </div>
     </div>
-    <div class="games-block">
-            <div class="row"> 
-                    <div class="col-md-4 img-games">
-                        <img src="front/img/alterophilie.jpg" alt="alterophilie" class="img-responsive" width="75%">
-                    </div>
-                    <div class="col-md-8">
-                        <h2>NAME</h2>
-                        <p class="desc-games">Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vestibulum tortor quam, feugiat vitae, ultricies eget, tempor sit amet, ante. Donec eu libero sit amet quam egestas semper. Aenean ultricies mi vitae est. Mauris placerat eleifend leo.</p>
-                        <a href="">View more</a>
-                    </div>
-                    <div class="col-md-12">
-                        <hr>
-                    </div>
-            </div>
-        </div>
-        <div class="container">
-            <center>
-                <ul class="pagination">
-                    <li><a href="#">1</a></li>
-                    <li class="active"><a href="#">2</a></li>
-                    <li><a href="#">3</a></li>
-                    <li><a href="#">4</a></li>
-                    <li><a href="#">5</a></li>
-                </ul>
-            </center>
-        </div>
 </div>
 {% endblock %}
 
@@ -96,6 +77,7 @@
         $(".jumbotron").css("background-color","#FCB90B");
         $(".jumbotron h1").css("color","#fff");
         $("body").css("background-color","#F7F7F7");
+        $(".footer").css("background-color","rgb(252, 185, 11)");
     });
 </script>
 {% endblock %}

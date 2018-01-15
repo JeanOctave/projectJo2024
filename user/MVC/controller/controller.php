@@ -4,7 +4,7 @@ require dirname(__DIR__) . "/requireLink.php";
 
 class controller {
   private $displayMethod;
-  private $pathUser = "http://localhost/Developpement/prod/jo2024/user/";
+  private $pathUser = "http://localhost/projectJo2024Prod/projectJo2024/user/";
 
   public function __construct($server, $database, $user, $password) {
     $this->displayMethod = new modelSpecial($server, $database, $user, $password);
@@ -407,6 +407,9 @@ class controller {
 
       }
 
+      $this->setTable("selectAllGames");
+      $allGames = $this->displayMethod->selectAll();
+
       $templateIndex = $this->loadTwig()->loadTemplate('games.html.twig');
       return $templateIndex->render(array(
         "myMessage" => $message,
@@ -417,7 +420,8 @@ class controller {
         "contact" => $this->returnContact(),
         "activities" => $this->returnActivities(),
         "games" => $this->returnGames(),
-        "sports" => $sports
+        "sports" => $sports,
+        "allGames" => $allGames
       ));
     }
     /* ------- */
