@@ -249,7 +249,6 @@ label{
 }
 
 /* Page games*/
-
 .games-block {
   display: inline-block;
   min-height: 130px;
@@ -294,10 +293,5 @@ background-image: none;
 border: 1px solid #ccc;
 border-radius: 4px;
 transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
-}
-
-.games-block h2{
-  font-size: 20px;
-  margin-top: 0px;
 }
 
