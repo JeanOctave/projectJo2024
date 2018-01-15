@@ -277,10 +277,6 @@ hr{
   border: none!important;
 }
 
-.form-control {
-  width: 50%;
-}
-
 .name-country{
 display: table-cell;
 position: relative;

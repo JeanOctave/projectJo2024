@@ -28,6 +28,33 @@ class controller {
 
     return $twig;
   }
+  //method send Email Admin
+  public function sendEmailAdmin($tabEmail) {
+    if($_SERVER['SERVER_NAME'] == 'localhost'){
+
+      $transport = new Swift_SmtpTransport('smtp.gmail.com', 465, 'ssl');
+      $transport->setUsername('thermos1111@gmail.com');
+      $transport->setPassword('pzprsoqneiaxoobw');
+    }
+    else{
+    
+      $transport = new Swift_MailTransport();
+    
+    }
+    
+    $mailer = new Swift_Mailer($transport);
+  
+    $message = (new Swift_Message($tabEmail['subject']))
+      ->setFrom(['thermos1111@gmail.com'])
+      ->setTo([$tabEmail['email']])
+      ->setContentType("text/html")
+      ->setCharset('utf-8')
+      ->setBody($tabEmail['message']);
+
+    $result = $mailer->send($message);
+
+    return $result;
+  }
   //stay Session enable
   public function staySessionEnable($email, $passwordCrypted) {
     /* call request selectWhere */
@@ -161,6 +188,7 @@ class controller {
       $message = "";
       $messageSignUp = "";
       $tabError = array();
+      $sucessMessageSend = "";
       //setTable sport for the list
       $this->setTable('sport');
       //select all sports for the list
@@ -230,6 +258,28 @@ class controller {
         header('location: user.php');
 
       }
+      //send email to Admin
+      if(isset($_POST['sendEmail'])) {
+        $email = $_POST['mail'];
+        $subject = $_POST['subject'];
+        $messageEmail = $_POST['message'];
+        $templateEmail = $this->loadTwig()->loadTemplate('emailAdmin.html.twig');
+        $emailUser = $templateEmail->render(array(
+          "email" => $email,
+          "subject" => $subject,
+          "message" => $messageEmail
+        ));
+  
+        $tabEmail = array(
+          "email" => "jo.coubertin2024@gmail.com",
+          "subject" => $subject,
+          "message" => $emailUser
+        );
+       $sendEmail = $this->sendEmailAdmin($tabEmail);
+       if($sendEmail) {
+         $sucessMessageSend = "Email send";
+       }
+      }
 
       $templateIndex = $this->loadTwig()->loadTemplate('contact.html.twig');
       return $templateIndex->render(array(
@@ -241,7 +291,8 @@ class controller {
         "contact" => $this->returnContact(),
         "activities" => $this->returnActivities(),
         "games" => $this->returnGames(),
-        "sports" => $sports
+        "sports" => $sports,
+        "successSendEmail" => $sucessMessageSend
       ));
     }
 
