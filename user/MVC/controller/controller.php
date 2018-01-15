@@ -4,7 +4,7 @@ require dirname(__DIR__) . "/requireLink.php";
 
 class controller {
   private $displayMethod;
-  private $pathUser = "http://localhost/projectJo2024Prod/projectJo2024/user/";
+  private $pathUser = "http://localhost/Developpement/prod/jo2024/user/";
 
   public function __construct($server, $database, $user, $password) {
     $this->displayMethod = new modelSpecial($server, $database, $user, $password);
@@ -23,7 +23,7 @@ class controller {
       'charset' => "utf-8",
       'debug' => true
     ));
-    //for enabled the dump in twig = to var_dump in php
+    //for enabled the dump in twig = to var_dump in php.
     $twig->addExtension(new Twig_Extension_Debug());
 
     return $twig;
