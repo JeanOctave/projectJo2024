@@ -457,24 +457,49 @@ class controller {
         header('location: user.php');
 
       }
-
       $this->setTable("selectAllGames");
-      $allGames = $this->displayMethod->selectAll();
+      if(isset($_GET['labelEvents'])) {
+        $fields = array("labelEvents", "descriptions", "dateEvent", "labelMedia", "link", "labelPlace");
+        $where = array(
+          "labelEvents" => $_GET['labelEvents']
+        );
 
-      $templateIndex = $this->loadTwig()->loadTemplate('games.html.twig');
-      return $templateIndex->render(array(
-        "myMessage" => $message,
-        "sucessSignUp" => $messageSignUp,
-        "inputErrors" => $tabError,
-        "session" => $_SESSION,
-        "home" => $this->returnHome(),
-        "contact" => $this->returnContact(),
-        "activities" => $this->returnActivities(),
-        "games" => $this->returnGames(),
-        "sports" => $sports,
-        "allGames" => $allGames
-      ));
-    }
+        $selectAGames = $this->displayMethod-> selectWhere($fields, $where);
+
+        $templateIndex = $this->loadTwig()->loadTemplate('aGames.html.twig');
+        return $templateIndex->render(array(
+          "myMessage" => $message,
+          "sucessSignUp" => $messageSignUp,
+          "inputErrors" => $tabError,
+          "session" => $_SESSION,
+          "home" => $this->returnHome(),
+          "contact" => $this->returnContact(),
+          "activities" => $this->returnActivities(),
+          "games" => $this->returnGames(),
+          "sports" => $sports,
+          "aGames" => $selectAGames
+        ));
+      }
+      else {
+         
+          $allGames = $this->displayMethod->selectAll();
+    
+          $templateIndex = $this->loadTwig()->loadTemplate('games.html.twig');
+          return $templateIndex->render(array(
+            "myMessage" => $message,
+            "sucessSignUp" => $messageSignUp,
+            "inputErrors" => $tabError,
+            "session" => $_SESSION,
+            "home" => $this->returnHome(),
+            "contact" => $this->returnContact(),
+            "activities" => $this->returnActivities(),
+            "games" => $this->returnGames(),
+            "sports" => $sports,
+            "allGames" => $allGames
+          ));
+        }
+      }
+     
     /* ------- */
     //method for multiple select in html
     public function multipleSelect(Array $tab, String $values, $post) {
