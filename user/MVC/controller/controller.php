@@ -1,10 +1,10 @@
 <?php
-require "MVC/model/modelSpecial.php";
+require dirname(__DIR__) . "/model/modelSpecial.php";
 require dirname(__DIR__) . "/requireLink.php";
 
 class controller {
   private $displayMethod;
-  private $pathUser = "http://localhost/Developpement/prod/jo2024/user/";
+  private $pathUser = "http://localhost/Developpement/dev/jo2024/user/";
 
   public function __construct($server, $database, $user, $password) {
     $this->displayMethod = new modelSpecial($server, $database, $user, $password);
@@ -530,6 +530,16 @@ class controller {
       }
      
     /* ------- */
+    /* ----- methods Ajax ---- */
+    public function selectaGames($keys) {
+      $aGames = $this->displayMethod-> selectaGames($keys);
+      return $aGames;
+    }
+    public function selectaActivities($keys) {
+      $aActivities = $this->displayMethod-> selectaActivities($keys);
+      return $aActivities;
+    }
+    /* -------- */
     //method for multiple select in html
     public function multipleSelect(Array $tab, String $values, $post) {
        //browse the multiple POST

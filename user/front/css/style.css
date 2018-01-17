@@ -248,21 +248,46 @@ label{
   margin-bottom: 80px;
 }
 
+hr{
+  border-top: 2px solid #FCB90B!important;
+}
+
+h2{
+  margin: 0px!important;
+ }
+
+.name-country{
+  display: table-cell;
+  position: relative;
+  z-index: 2;
+  float: left;
+  width: 100%;
+  margin-bottom: 0;
+  height: 34px;
+  padding: 6px 12px;
+  font-size: 14px;
+  line-height: 1.42857143;
+  color: #555;
+  background-color: #fff;
+  background-image: none;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
+}
+  
 /* Page games*/
 .games-block {
   display: inline-block;
   min-height: 130px;
   width: 100%;
 }
-
-hr{
-  border-top: 2px solid #FCB90B!important;
-}
-
 #page-games{
   width: 1100px;
 }
-
+#page-aGames {
+  width: 1100px;
+  display: none;
+}
 .desc-games{
   font-size: 18px;
 }
@@ -275,23 +300,36 @@ hr{
 #page-games .games-block:last-child .row div:last-of-type hr:last-of-type{
   border: none!important;
 }
-
-.name-country{
-display: table-cell;
-position: relative;
-z-index: 2;
-float: left;
-width: 100%;
-margin-bottom: 0;
-height: 34px;
-padding: 6px 12px;
-font-size: 14px;
-line-height: 1.42857143;
-color: #555;
-background-color: #fff;
-background-image: none;
-border: 1px solid #ccc;
-border-radius: 4px;
-transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
+#page-aGames .games-block:last-child .row div:last-of-type hr:last-of-type{
+  border: none!important;
+}
+/* ------- */
+/* Page Activities */
+.activities-block {
+  display: inline-block;
+  min-height: 130px;
+  width: 100%;
+}
+#page-activities{
+  width: 1100px;
+}
+#page-aActivities {
+  width: 1100px;
+  display: none;
+}
+.desc-activities{
+  font-size: 18px;
 }
 
+.activities-block a{
+  color: #27A3FF!important;
+  font-size: 14px!important;
+}
+
+#page-activities .activities-block:last-child .row div:last-of-type hr:last-of-type{
+  border: none!important;
+}
+#page-aActivities .activities-block:last-child .row div:last-of-type hr:last-of-type{
+  border: none!important;
+}
+/* ------ */

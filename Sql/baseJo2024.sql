@@ -69,7 +69,6 @@ create table events(
 create table participate(
     idEvent int(3) not null,
     idPeople int(3) not null,
-    primary key(idEvent, idPeople),
     foreign key (idEvent) references events(idEvent),
     foreign key (idPeople) references user(idPeople)
 );
@@ -83,7 +82,6 @@ create table sport(
 create table practice(
     idPeople int(3) not null,
     idSport int(3) not null,
-    primary key(idPeople, idSport),
     foreign key (idPeople) references competitor(idPeople),
     foreign key (idSport) references sport(idSport)
 );
@@ -97,7 +95,6 @@ create table medal(
 create table reward(
     idPeople int(3) not null,
     idMedal int(3) not null,
-    primary key(idPeople, idMedal),
     foreign key (idPeople) references competitor(idPeople),
     foreign key (idMedal) references medal(idMedal)
 );
@@ -109,7 +106,7 @@ create table countries(
 );
 
 create table team(
-    idTeam int(3) not null,
+    idTeam int(3) not null auto_increment,
     label varchar(50),
     idCountries int(3),
     primary key(idTeam),
@@ -119,7 +116,6 @@ create table team(
 create table belong(
     idPeople int(3) not null,
     idTeam int(3) not null,
-    primary key(idPeople, idTeam),
     foreign key (idPeople) references competitor(idPeople),
     foreign key (idTeam) references team(idTeam)
 );
@@ -127,14 +123,13 @@ create table belong(
 create table classification(
     idClassification int(3) not null,
     label varchar(50),
-    year date,
     primary key(idClassification)
 );
 
 create table classify(
     idCountries int(3) not null,
     idClassification int(3) not null,
-    primary key(idCountries, idClassification),
+    year date,
     foreign key (idCountries) references countries(idCountries),
     foreign key (idClassification) references classification(idClassification)
 );

@@ -23,6 +23,25 @@
       $insert = $this->pdo->prepare($request);
       $insert->execute($data);
     }
+
+    //method filter Games
+    public function selectaGames($key) {
+      $request = "select labelEvents, link, descriptions from selectAllGames where labelEvents like '".$key['value']."'";
+      $select = $this->pdo->prepare($request);
+      $select->execute($key);
+      $result = $select->fetchAll();
+
+      return $result;
+    }
+    //method filter Activities
+    public function selectAActivities($key) {
+      $request = "select labelEvents, link, descriptions from selectAllActivities where labelEvents like '".$key['value']."'";
+      $select = $this->pdo->prepare($request);
+      $select->execute($key);
+      $result = $select->fetchAll();
+
+      return $result;
+    }
   }
 
  ?>

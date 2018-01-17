@@ -16,7 +16,7 @@
         <div class="col-lg-4"></div>
         <div class="col-lg-4">
             <div class="input-group">
-                <input type="text" class="name-country" placeholder="Choose by name..."/>
+                <input type="text" class="name-country" id="searchGames" placeholder="Choose by name..."/>
                 <span class="input-group-btn">
                     <button class="btn btn-default" type="button">Go!</button>
                 </span>
@@ -39,7 +39,7 @@
                 </div>
                 <div class="col-md-8">
                     <h2>{{ aGames.labelEvents }}</h2>
-                    <p class="desc-games">{{ aGames.descriptions }}</p>
+                    <p class="desc-games">{{ aGames.descriptions|slice(0, 150) }}...</p>
                     <a href="{{ games }}&&labelEvents={{ aGames.labelEvents }}">View more</a>
                 </div>
                 <div class="col-md-12">
@@ -49,6 +49,7 @@
     </div>
     {% endfor %}
 </div>
+<div class="container" id="page-aGames"></div>
 {% endblock %}
 
 {% block footer %}

@@ -16,7 +16,7 @@
         <div class="col-lg-4"></div>
         <div class="col-lg-4">
             <div class="input-group">
-                <input type="text" class="name-country" placeholder="Choose by name..."/>
+                <input type="text" id="searchActivities" class="name-country" placeholder="Choose by name..."/>
                 <span class="input-group-btn">
                     <button class="btn btn-default" type="button">Go!</button>
                 </span>
@@ -30,16 +30,16 @@
 </br>
 </br>
 
-<div class="container" id="page-games">
+<div class="container" id="page-activities">
     {% for aActivities in allActivities %}
-    <div class="games-block">
+    <div class="activities-block">
         <div class="row"> 
                 <div class="col-md-4 img-games">
                     <img src="{{ aActivities.link }}" alt="alterophilie" class="img-responsive" width="75%">
                 </div>
                 <div class="col-md-8">
                     <h2>{{ aActivities.labelEvents }}</h2>
-                    <p class="desc-games">{{ aActivities.descriptions }}</p>
+                    <p class="desc-activities">{{ aActivities.descriptions|slice(0, 150) }}... </p>
                     <a href="{{ activities }}&&labelEvents={{ aActivities.labelEvents }}">View more</a>
                 </div>
                 <div class="col-md-12">
@@ -49,6 +49,7 @@
     </div>
     {% endfor %}
 </div>
+<div class="container" id="page-aActivities"></div>
 {% endblock %}
 
 {% block footer %}
