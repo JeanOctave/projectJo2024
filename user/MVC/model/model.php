@@ -55,6 +55,18 @@
       return $oneResult;
     }
 
+    //method count value database
+    public function selectCount($field) {
+      if($this->pdo != null) {
+        $request = "select count(".$field.") as nbValue from ".$this->table.";";
+        $select = $this->pdo->prepare($request);
+        $select->execute();
+        $results = $select->fetch(PDO::FETCH_ASSOC);
+        return $results;
+      } else {
+        return null;
+      }
+    }
     //method insert in database
     public function insert($tab)
     {

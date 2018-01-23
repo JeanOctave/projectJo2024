@@ -42,6 +42,18 @@
 
       return $result;
     }
+    //method limit value on page
+    public function selectLimit($start, $nbResult) {
+      if($this->pdo != null) {
+        $request = "select labelEvents, link, descriptions from ".$this->table." limit ".$start.", " .$nbResult.";";
+        $select = $this->pdo->prepare($request);
+        $select->execute();
+        $results = $select->fetchAll();
+        return $results;
+        } else {
+        return null;
+      }
+    }
   }
 
  ?>

@@ -332,4 +332,7 @@ h2{
 #page-aActivities .activities-block:last-child .row div:last-of-type hr:last-of-type{
   border: none!important;
 }
+#center-pagination {
+  justify-content: center!important;
+}
 /* ------ */

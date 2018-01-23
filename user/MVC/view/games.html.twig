@@ -49,6 +49,15 @@
     </div>
     {% endfor %}
 </div>
+<div class="container" id="pagination-games">
+    <div class="col-sm-2 col-sm-offset-5 text-center">
+        <ul class="pagination">
+            {% for i in 1..nbPage %}
+                <li class="page-item"><a class="page-link" href="{{ games }}&&p={{ i }}">{{ i }}</a></li>
+            {% endfor %}
+        </ul>
+    </div>
+</div>
 <div class="container" id="page-aGames"></div>
 {% endblock %}
 

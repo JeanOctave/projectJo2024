@@ -5,12 +5,13 @@ require dirname(__DIR__) . "/requireLink.php";
 class controller {
   private $displayMethod;
   private $pathUser = "http://localhost/Developpement/dev/jo2024/user/";
+  private $tabPActivities;
 
   public function __construct($server, $database, $user, $password) {
     $this->displayMethod = new modelSpecial($server, $database, $user, $password);
   }
   /* ---- general method ---*/
-
+  
   //setTable DataBase
   public function setTable($table) {
     $this->displayMethod-> inform($table);
@@ -75,7 +76,54 @@ class controller {
     $theSalt = $this->displayMethod-> selectWhere($fields, $where);
     return $theSalt;
   }
+  //pagination for activities
+  public function paginationActivities($perPage, $getVariable) {
+    //call method for choice the table and count data
+    $this->setTable('selectAllActivities');
+    $count = $this->displayMethod->selectCount('idEvent');
+    $nbIn = $count['nbValue'];
+    //number of pages and if float ex: 2,5 rise to number above
+    $nbPage = ceil($nbIn / $perPage);
+    
+    //checked if variable exist
+    if(isset($_GET[$getVariable]) && $_GET[$getVariable] > 0 && $_GET[$getVariable] <= $nbPage) {
+     $currentPage = $_GET[$getVariable];
+    } 
+    else {
+     $currentPage = 1;
+    }
+    //start data and number of data by number ex: select * from mytable limit 0, 2, start to 0 and 2 by page
+    $start = ($currentPage-1) * $perPage;
+    $nbResult = $perPage;
+    $results = $this->displayMethod->selectLimit($start, $nbResult);
 
+    return array("results" => $results, "nbPage" => $nbPage);
+
+  }
+  //pagination Games
+  public function paginationGames($perPage, $getVariable) {
+    //call method for choice the table and count data
+    $this->setTable('selectAllGames');
+    $count = $this->displayMethod->selectCount('idEvent');
+    $nbIn = $count['nbValue'];
+    //number of pages and if float ex: 2,5 rise to number above
+    $nbPage = ceil($nbIn / $perPage);
+    
+    //checked if variable exist
+    if(isset($_GET[$getVariable]) && $_GET[$getVariable] > 0 && $_GET[$getVariable] <= $nbPage) {
+     $currentPage = $_GET[$getVariable];
+    } 
+    else {
+     $currentPage = 1;
+    }
+    //start data and number of data by number ex: select * from mytable limit 0, 2, start to 0 and 2 by page
+    $start = ($currentPage-1) * $perPage;
+    $nbResult = $perPage;
+    $results = $this->displayMethod->selectLimit($start, $nbResult);
+
+    return array("results" => $results, "nbPage" => $nbPage);
+
+  }
   /* ---- specific method ----- */
 
   /* ----- Session ----- */
@@ -300,6 +348,7 @@ class controller {
       $message = "";
       $messageSignUp = "";
       $tabError = array();
+
       //setTable sport for the list
       $this->setTable('sport');
       //select all sports for the list
@@ -394,8 +443,8 @@ class controller {
         ));
       }
       else {
-         
-          $allActivities = $this->displayMethod->selectAll();
+          $pagination = $this->paginationActivities('2', 'p');
+       
     
           $templateIndex = $this->loadTwig()->loadTemplate('activities.html.twig');
           return $templateIndex->render(array(
@@ -408,7 +457,8 @@ class controller {
             "activities" => $this->returnActivities(),
             "games" => $this->returnGames(),
             "sports" => $sports,
-            "allActivities" => $allActivities
+            "allActivities" => $pagination['results'],
+            "nbPage" => $pagination['nbPage']
           ));
         }
     }
@@ -511,7 +561,7 @@ class controller {
       }
       else {
          
-          $allGames = $this->displayMethod->selectAll();
+          $pagination = $this->paginationGames('2', 'p');
     
           $templateIndex = $this->loadTwig()->loadTemplate('games.html.twig');
           return $templateIndex->render(array(
@@ -524,7 +574,8 @@ class controller {
             "activities" => $this->returnActivities(),
             "games" => $this->returnGames(),
             "sports" => $sports,
-            "allGames" => $allGames
+            "allGames" => $pagination['results'],
+            "nbPage" => $pagination['nbPage']
           ));
         }
       }
