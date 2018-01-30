@@ -54,6 +54,30 @@
         return null;
       }
     }
+    //method select total medal by countries
+    public function selectCountriesMedal() {
+      if($this->pdo != null) {
+        $request = "select * from selectMedalByCountries;";
+        $select = $this->pdo->prepare($request);
+        $select->execute();
+        $results = $select->fetchAll();
+        return $results;
+        } else {
+        return null;
+      }
+    }
+   //method select competitor by countries
+   public function selectCompetitorCountries($idCountries) {
+      if($this->pdo != null) {
+        $request = "select * from selectCompetitorCountries where countries = " . $idCountries . ";";
+        $select = $this->pdo->prepare($request);
+        $select->execute();
+        $results = $select->fetchAll();
+        return $results;
+        } else {
+        return null;
+      }
+    }
   }
 
  ?>

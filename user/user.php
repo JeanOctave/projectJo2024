@@ -17,6 +17,9 @@ switch($page) {
       echo $controller->checkViewGames();
     break;
     case 4:
+      echo $controller->checkViewScoreboard();
+    break;
+    case 5:
       echo $controller->checkViewContact();
     break;
     default:

@@ -41,4 +41,13 @@ END //
 Delimiter ;
 
 call checkHeritageForU('germe', 'germa', 'gg@gmail.com', 'rkkkrkrk456', '0', 'gg', 'soccer, basketball, rudby');
-call checkHeritageForC('germe', 'germa', 'gg@gmail.com', 'rkkkrkrk456', '0', 'gg', 'mondial');
+call checkHeritageForC('Ryner', 'Teddy', 'Ryner@gmail.com', 'vnfsmsm', '1', 'qmmdmep', 'mondial');
+
+---- procedure add data ----
+drop procedure if exists addDataParticipate;
+Delimiter //
+create procedure addDataParticipate(idE int(3), idU int(3))
+begin
+  insert into participate values (idE, idU);
+end //
+Delimiter ;

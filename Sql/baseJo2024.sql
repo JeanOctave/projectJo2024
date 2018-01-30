@@ -53,7 +53,7 @@ create table competitor(
 create table events(
     idEvent int(3) not null auto_increment,
     label varchar(50),
-    descriptions varchar(255),
+    descriptions varchar(2000),
     dateEvent date,
     startEvent varchar(50),
     endEvent varchar(50),
@@ -67,8 +67,8 @@ create table events(
 );
 
 create table participate(
-    idEvent int(3) not null,
-    idPeople int(3) not null,
+    idEvent int(3),
+    idPeople int(3),
     foreign key (idEvent) references events(idEvent),
     foreign key (idPeople) references user(idPeople)
 );
@@ -80,29 +80,29 @@ create table sport(
 );
 
 create table practice(
-    idPeople int(3) not null,
-    idSport int(3) not null,
+    idPeople int(3),
+    idSport int(3),
     foreign key (idPeople) references competitor(idPeople),
     foreign key (idSport) references sport(idSport)
-);
-
-create table medal(
-    idMedal int(3) not null auto_increment,
-    typeM varchar(50),
-    primary key(idMedal)
-);
-
-create table reward(
-    idPeople int(3) not null,
-    idMedal int(3) not null,
-    foreign key (idPeople) references competitor(idPeople),
-    foreign key (idMedal) references medal(idMedal)
 );
 
 create table countries(
     idCountries int(3) not null auto_increment,
     label varchar(50),
+    link varchar(255),
     primary key(idCountries)
+);
+
+create table medal(
+    idMedal int(3) not null auto_increment,
+    gold int(3),
+    silver int(3),
+    brown int(3),
+    idCountries int(3),
+    idPeople int(3),
+    primary key(idMedal),
+    foreign key (idCountries) references countries(idCountries),
+    foreign key(idPeople) references competitor(idPeople)
 );
 
 create table team(
@@ -114,8 +114,8 @@ create table team(
 );
 
 create table belong(
-    idPeople int(3) not null,
-    idTeam int(3) not null,
+    idPeople int(3),
+    idTeam int(3),
     foreign key (idPeople) references competitor(idPeople),
     foreign key (idTeam) references team(idTeam)
 );
@@ -127,8 +127,8 @@ create table classification(
 );
 
 create table classify(
-    idCountries int(3) not null,
-    idClassification int(3) not null,
+    idCountries int(3),
+    idClassification int(3),
     year date,
     foreign key (idCountries) references countries(idCountries),
     foreign key (idClassification) references classification(idClassification)

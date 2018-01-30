@@ -19,11 +19,13 @@ $(document).ready(function() {
                 success: function(server_response) {
                     $("#page-aGames").html(server_response).show();
                     $("#page-games").hide();
+                    $("#pagination-games").hide()
                 }
             })
          }
          else {
             $("#page-aGames").html('').hide();
+            $("#pagination-games").show()
             $("#page-games").show();
          }
     })
@@ -42,11 +44,13 @@ $(document).ready(function() {
                success: function(server_response) {
                    $("#page-aActivities").html(server_response).show();
                    $("#page-activities").hide();
+                   $("#pagination-activities").hide()
                }
            })
         }
         else {
            $("#page-aActivities").html('').hide();
+           $("#pagination-activities").show()
            $("#page-activities").show();
         }
    })

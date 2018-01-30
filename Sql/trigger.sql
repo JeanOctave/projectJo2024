@@ -59,4 +59,15 @@ end //
 Delimiter ;
 
 insert into user values (2, "kong", "pagna", "pagna@gmail.com", "djfjfj455", "1", "pg", "natation");
-insert into competitor values (2, "kong", "pagna", "pagna@gmail.com", "djfjfj455", "1", "pg", "Mondial");
+insert into competitor values (null, "kong", "pagna", "pagna@gmail.com", "djfjfj455", "1", "pg", "Mondial");
+
+---- trigger addData Medal ----
+/*drop trigger if exists addDataMedal;
+Delimiter //
+create trigger addDataMedal
+after insert on competitor
+for each row
+begin
+ insert into medal values(null, 0, 0, 0, new.idCountries, 3);       
+end //
+Delimiter ;*/

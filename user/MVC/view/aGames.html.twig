@@ -5,15 +5,25 @@
     <div class="container">
         <div class="row">
             <div class="col-sm-12 col-lg-12 text-center">
-                <h1>View on {{ aGames.labelEvents }}</h1>
+                <h1>{{ aGames.labelEvents }}</h1>
             </div>
         </div>
     </div>
 </div>
 
 <div class="container">
-    <div class="row"> 
-        {{ aGames.descriptions }}
+    <div class="row">
+        <div class="col-lg-2 col-sm-2"></div>
+        <div class="col-lg-8 col-sm-8">
+            <img src="{{ aGames.link }}" alt="alterophilie" class="img-responsive" width="100%">
+            <!-- <div class="info-games">Date : {{ aGames.dateEvent }}</div>
+            <div class="info-games">Place : {{ aGames.labelPlace }}</div> -->
+            </br></br>
+            <center><h2>Description</h2></center>
+            </br>
+            <p class="desc-games">{{ aGames.descriptions }}</p>
+        </div>
+        <div class="col-lg-2 col-sm-2"></div>
     </div>
 </div>
 {% endblock %}

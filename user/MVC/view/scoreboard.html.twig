@@ -1,0 +1,124 @@
+{% extends "default.html.twig" %}
+
+{% block content %}
+<div class="jumbotron jumbotron-sm">
+   <div class="container">
+       <div class="row">
+           <div class="col-sm-12 col-lg-12 text-center">
+               <h1>Scoreboard</h1>
+           </div>
+       </div>
+   </div>
+</div>
+
+</br>
+</br>
+
+<div class="container">
+<table width="100%">
+       <tr>
+           <th>Country</th>
+           <th>Competitor</th>
+           <th>Gold</th>
+           <th>Silver</th>
+           <th>Bronze</th>
+           <th>Total</th>
+       </tr>
+     
+       {% for aCountries in scoreboards %}
+       <tr>
+           <td><img src="{{ aCountries.link }}" alt="" class="img-responsive" width="100" height="100"></td>
+           <td>
+                <input name="countries" type="hidden" value="{{ aCountries.theCountries }}" id="countries{{ aCountries.theCountries }}"/>
+                <button class="btn btn-primary" type="button" name="detail" id="detail_{{ aCountries.theCountries }}" data-target="#modalCompet" data-toggle="modal">Detail</button>   
+            </td>
+           <td>{{ aCountries.totalGold }}</td>
+           <td>{{ aCountries.totalSilver }}</td>
+           <td>{{ aCountries.totalBrown }}</td>
+           <td>{{ aCountries.nbTotalMedal }}</td>
+       </tr>
+       {% endfor %}
+   </table>
+</div>
+
+<div class="modal fade" id="modalCompet">
+   <div class="modal-dialog">
+       <div class="modal-content">
+           <div class="modal-body">
+                <img src='' class='img-fluid' alt='Responsive image'>
+            <table class='table table-striped' id='tblGrid'>
+                <thead id='tblHead'>
+                    <tr>
+                        <th>First Name</th>
+                        <th>Last Name</th>
+                        <th>Sport</th>
+                        <th>Statut</th>
+                    </tr>
+                </thead>
+                <tbody id="data">
+                </tbody>
+            </table>
+           </div>
+       </div>
+   </div>
+</div>
+{% endblock %}
+
+{% block footer %}
+<footer class="footer">
+   <div class="container">
+       <ul class="social-icon animate">
+           <li><a href="https://www.facebook.com/Paris2024/" title="facebook" target="_blank"><i class="fa fa-facebook"></i></a></li> <!-- change the link to social page and edit title-->
+           <li><a href="https://twitter.com/paris2024" title="twitter" target="_blank"><i class="fa fa-twitter"></i></a></li>
+           <li><a href="#" title="google plus" target="_blank"><i class="fa fa-google-plus"></i></a></li>
+       </ul>
+   </div>
+</footer>
+
+<div class="copyright">
+   <div class="container">
+       <div class="row text-center">
+           <p>Copyright © 2018 All rights reserved</p>
+       </div>
+   </div>
+</div>
+{% endblock %}
+
+{% block jumbotron %}
+<script>
+   $(document).ready(function(){
+       $(".jumbotron").css("background-color","#FCB90B");
+       $(".jumbotron h1").css("color","#fff");
+       $("body").css("background-color","#F7F7F7");
+       $(".footer").css("background-color","rgb(252, 185, 11)");
+   });
+</script>
+{# if countries > 0 %}
+<script>
+    //$('#modalCompet').modal('show')
+</script>
+{% endif #}
+<script>
+    var request;
+    $('[id^="detail_"]').click(function(event) {
+        event.preventDefault();
+        // Abort any pending request
+        if (request) {
+            request.abort();
+        }
+        //extract the name of the button clicked
+        var id = $(this).attr('id').split('detail_')[1];
+    
+        var formSerialize = $("#countries" + id + "").serialize()
+        request = $.ajax({
+            type: "GET",
+            url: "MVC/requestAjax/displayCptrByCtrs.php",
+            data: formSerialize,   
+        });
+
+        request.done(function(response){
+            $('#data').html(response).show()
+        }) 
+      });
+</script>
+{% endblock %}
